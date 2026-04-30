@@ -13,6 +13,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const isProduction = process.env.CONTEXT === "production";
+
 export const metadata: Metadata = {
   title: {
     default: "Sorolla | Discover Artistic Inspiration Today",
@@ -20,6 +22,7 @@ export const metadata: Metadata = {
   },
   description:
     "Explore Sorolla | Just Play for engaging arts content, vibrant visuals, and creative ideas to inspire your next artistic project or visit.",
+  robots: isProduction ? undefined : { index: false, follow: false },
 };
 
 export default function RootLayout({
