@@ -1,7 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
+  const pathname = usePathname();
+  if (pathname === "/") return null;
+
   return (
     <header className="sticky top-0 z-50 bg-background py-4 px-6">
       <nav className="max-w-7xl mx-auto flex items-center justify-between">
