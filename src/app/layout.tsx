@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Fraunces, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import { siteContent } from "@/content/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,12 +29,8 @@ const jetbrainsMono = JetBrains_Mono({
 const isProduction = process.env.CONTEXT === "production";
 
 export const metadata: Metadata = {
-  title: {
-    default: "Sorolla | Discover Artistic Inspiration Today",
-    template: "%s — Sorolla",
-  },
-  description:
-    "Explore Sorolla | Just Play for engaging arts content, vibrant visuals, and creative ideas to inspire your next artistic project or visit.",
+  title: siteContent.metadata.title,
+  description: siteContent.metadata.description,
   robots: isProduction ? undefined : { index: false, follow: false },
 };
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { aboutContactFormContent } from "@/content/about";
 
 export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -8,7 +9,7 @@ export default function ContactForm() {
   if (submitted) {
     return (
       <div className="text-white text-center py-8">
-        <p className="text-xl">Thank you! We&apos;ll get back to you soon.</p>
+        <p className="text-xl">{aboutContactFormContent.successMessage}</p>
       </div>
     );
   }
@@ -25,14 +26,13 @@ export default function ContactForm() {
       <input type="hidden" name="form-name" value="contact" />
       <p className="hidden">
         <label>
-          Don&apos;t fill this out if you&apos;re human:{" "}
-          <input name="bot-field" />
+          {aboutContactFormContent.honeypotLabel} <input name="bot-field" />
         </label>
       </p>
 
       <div>
         <label htmlFor="email" className="block text-white mb-2">
-          Email
+          {aboutContactFormContent.emailLabel}
         </label>
         <input
           type="email"
@@ -45,7 +45,7 @@ export default function ContactForm() {
 
       <div>
         <label htmlFor="message" className="block text-white mb-2">
-          Message
+          {aboutContactFormContent.messageLabel}
         </label>
         <textarea
           id="message"
@@ -60,7 +60,7 @@ export default function ContactForm() {
         type="submit"
         className="self-start bg-white text-coral px-8 py-3 font-semibold hover:bg-white/90 transition-colors"
       >
-        SEND
+        {aboutContactFormContent.submitLabel}
       </button>
     </form>
   );

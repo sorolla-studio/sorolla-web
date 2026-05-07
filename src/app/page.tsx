@@ -2,22 +2,23 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { homeContent, type EmphasizedText } from "@/content/home";
+import { siteContent } from "@/content/site";
 
-const SECTIONS = [
-  { id: "hero", label: "Index", theme: "dark" as const },
-  { id: "mission", label: "Mission", theme: "light" as const },
-  { id: "process", label: "Process", theme: "dark" as const },
-  { id: "team", label: "Team", theme: "light" as const },
-  { id: "contact", label: "Contact", theme: "light" as const },
-];
+function EmText({ text }: { text: EmphasizedText }) {
+  return (
+    <>
+      {text.before}
+      <em>{text.emphasized}</em>
+      {text.after}
+    </>
+  );
+}
 
-const REASON_PLACEHOLDERS: Record<string, string> = {
-  general: "Tell us what you have in mind.",
-  studio:
-    "Tell us about your prototype: genre, build status, anything you've tested so far.",
-  press: "What are you working on, and what do you need from us?",
-  careers: "A short intro plus links to work you're proud of.",
-};
+const REASON_PLACEHOLDERS = Object.fromEntries(
+  homeContent.contact.reasons.map((reason) => [reason.value, reason.placeholder]),
+);
 
 export default function Home() {
   const [activeId, setActiveId] = useState("hero");
@@ -128,7 +129,7 @@ export default function Home() {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    const required = ["name", "email", "message"];
+    const required = [...homeContent.contact.requiredFields];
     const missing = required.find((k) => !String(data.get(k) || "").trim());
     if (missing) {
       setInvalidField(missing);
@@ -156,7 +157,7 @@ export default function Home() {
     <div className="cinematic">
       {/* Side-dots nav */}
       <div className={`nav-dots ${activeTheme === "light" ? "on-light" : ""}`}>
-        {SECTIONS.map((s) => (
+        {homeContent.sections.map((s) => (
           <button
             key={s.id}
             aria-current={s.id === activeId}
@@ -178,8 +179,8 @@ export default function Home() {
       >
         <div ref={heroMediaRef} className="hero-media">
           <Image
-            src="/images/hero-image.png"
-            alt="A group of happy teenagers and young adults in a gaming arcade, playing games on their smartphones, smiling, laughing, and enjoying their time together."
+            src={homeContent.hero.image.src}
+            alt={homeContent.hero.image.alt}
             fill
             priority
             sizes="100vw"
@@ -188,13 +189,13 @@ export default function Home() {
         </div>
         <div className="hero-overlay" />
         <div ref={heroContentRef} className="hero-content">
-          <div className="hero-eyebrow">Hybrid casual · est. 2024</div>
+          <div className="hero-eyebrow">{homeContent.hero.eyebrow}</div>
           <h1 className="hero-title">
-            Sorolla <em>|</em> Just Play
+            <EmText text={homeContent.hero.title} />
           </h1>
         </div>
         <div className="hero-scroll-cue">
-          <span>Scroll</span>
+          <span>{homeContent.hero.scrollCue}</span>
           <span className="line" />
         </div>
       </section>
@@ -205,21 +206,18 @@ export default function Home() {
           <div className="pin-stage">
             <div className="mission-inner">
               <div>
-                <div className="eyebrow">Mission</div>
+                <div className="eyebrow">{homeContent.mission.eyebrow}</div>
                 <h2 className="section-title">
-                  We make hybrid&nbsp;casual games
+                  {homeContent.mission.title.before}
                   <br />
-                  <em>worth playing</em>.
+                  <em>{homeContent.mission.title.emphasized}</em>
+                  {homeContent.mission.title.after}
                 </h2>
-                <p className="section-lede">
-                  Sorolla is a small team turning promising prototypes into globally
-                  published mobile games. We work behind the scenes — quietly,
-                  deliberately, and with a healthy distrust of our own taste.
-                </p>
+                <p className="section-lede">{homeContent.mission.body}</p>
               </div>
               <div className="mission-visual" data-parallax="0.4">
                 <div className="placeholder" />
-                <div className="ph-label">[ studio photograph ]</div>
+                <div className="ph-label">{homeContent.mission.visualLabel}</div>
               </div>
             </div>
           </div>
@@ -236,70 +234,33 @@ export default function Home() {
         <div className="pin-wrap">
           <div className="pin-stage process-stage">
             <div className="process-header">
-              <div className="eyebrow">How we work</div>
+              <div className="eyebrow">{homeContent.process.eyebrow}</div>
               <h2 className="section-title">
-                A quiet, <em>data-driven</em> loop.
+                <EmText text={homeContent.process.title} />
               </h2>
             </div>
 
             <div ref={processTrackRef} className="process-track">
-              <article className="process-step">
-                <div className="num">01 — Read</div>
-                <h3>
-                  Read the <em>market</em>, not the room.
-                </h3>
-                <p>
-                  Hybrid casual rewards instincts most people don&apos;t have. We
-                  start from market behavior — rankings, retention curves, creative
-                  signals — not from what feels good in a meeting.
-                </p>
-              </article>
-
-              <article className="process-step">
-                <div className="num">02 — Test</div>
-                <h3>
-                  Real spend, <em>real users</em>.
-                </h3>
-                <p>
-                  Prototypes go through structured UA tests with measurable budgets.
-                  CPI, D1, D7, session length, early monetization — the same numbers
-                  everyone uses, reported transparently to the studios we work with.
-                </p>
-              </article>
-
-              <article className="process-step">
-                <div className="num">03 — Decide</div>
-                <h3>
-                  Honest <em>thresholds</em>.
-                </h3>
-                <p>
-                  We share the numbers as they come in. If a prototype clears, we
-                  scale together. If not, we say so quickly and move on. No opaque
-                  feedback, no slow no&apos;s.
-                </p>
-              </article>
-
-              <article className="process-step">
-                <div className="num">04 — Scale</div>
-                <h3>
-                  Through to <em>live ops</em>.
-                </h3>
-                <p>
-                  For winners: SDK integration, creative production, paid UA,
-                  monetization tuning, live ops. We treat scaling as part of the
-                  product, not an afterthought.
-                </p>
-              </article>
+              {homeContent.process.steps.map((step) => (
+                <article key={step.number} className="process-step">
+                  <div className="num">
+                    {step.number} — {step.label}
+                  </div>
+                  <h3>
+                    <EmText text={step.title} />
+                  </h3>
+                  <p>{step.body}</p>
+                </article>
+              ))}
             </div>
 
             <div className="process-progress">
               <div ref={processBarRef} className="process-progress-bar" />
             </div>
             <div className="process-progress-labels">
-              <span>Read</span>
-              <span>Test</span>
-              <span>Decide</span>
-              <span>Scale</span>
+              {homeContent.process.steps.map((step) => (
+                <span key={step.label}>{step.label}</span>
+              ))}
             </div>
           </div>
         </div>
@@ -311,59 +272,26 @@ export default function Home() {
           <div className="pin-stage">
             <div className="team-inner">
               <div className="team-header">
-                <div className="eyebrow">Team</div>
+                <div className="eyebrow">{homeContent.team.eyebrow}</div>
                 <h2 className="section-title">
-                  A few people, working <em>closely</em>.
+                  <EmText text={homeContent.team.title} />
                 </h2>
-                <p className="section-lede">
-                  Sorolla is intentionally small. Decision-makers are reachable;
-                  feedback is direct. We treat the studios we work with the way
-                  we&apos;d want to be treated as developers.
-                </p>
+                <p className="section-lede">{homeContent.team.body}</p>
               </div>
 
               <div className="team-grid">
-                <div className="team-card">
-                  <div className="team-portrait" data-parallax="0.15">
-                    <div className="placeholder" />
-                    <div className="initials">A</div>
-                    <div className="ph-label">[ portrait ]</div>
+                {homeContent.team.members.map((member) => (
+                  <div key={`${member.name}-${member.role}`} className="team-card">
+                    <div className="team-portrait" data-parallax={member.parallax}>
+                      <div className="placeholder" />
+                      <div className="initials">{member.initials}</div>
+                      <div className="ph-label">{member.portraitLabel}</div>
+                    </div>
+                    <h3 className="team-name">{member.name}</h3>
+                    <p className="team-role">{member.role}</p>
+                    <p className="team-bio">{member.bio}</p>
                   </div>
-                  <h3 className="team-name">Founder</h3>
-                  <p className="team-role">CEO</p>
-                  <p className="team-bio">
-                    Background in mobile publishing and product. Leads partnerships,
-                    fundraising, and the overall direction of the studio.
-                  </p>
-                </div>
-
-                <div className="team-card">
-                  <div className="team-portrait" data-parallax="0.2">
-                    <div className="placeholder" />
-                    <div className="initials">B</div>
-                    <div className="ph-label">[ portrait ]</div>
-                  </div>
-                  <h3 className="team-name">Co-founder</h3>
-                  <p className="team-role">Product &amp; Tech</p>
-                  <p className="team-bio">
-                    Shapes the publishing platform and the SDK. Lives between the
-                    analytics pipeline and the studios shipping into it.
-                  </p>
-                </div>
-
-                <div className="team-card">
-                  <div className="team-portrait" data-parallax="0.1">
-                    <div className="placeholder" />
-                    <div className="initials">C</div>
-                    <div className="ph-label">[ portrait ]</div>
-                  </div>
-                  <h3 className="team-name">Co-founder</h3>
-                  <p className="team-role">UA &amp; Creative</p>
-                  <p className="team-bio">
-                    Runs the testing loop end-to-end: media buying, creative
-                    production, and the read on whether a prototype can scale.
-                  </p>
-                </div>
+                ))}
               </div>
             </div>
           </div>
@@ -374,20 +302,17 @@ export default function Home() {
       <section className="contact" data-section="contact" data-theme="light">
         <div className="contact-inner">
           <div className="contact-headline">
-            <div className="eyebrow">Contact</div>
+            <div className="eyebrow">{homeContent.contact.eyebrow}</div>
             <h2 className="section-title">
-              Tell us what you&apos;re <em>working on</em>.
+              <EmText text={homeContent.contact.title} />
             </h2>
-            <p className="section-lede">
-              A real human reads every message. We try to reply within a week, even
-              if the answer is no.
-            </p>
+            <p className="section-lede">{homeContent.contact.body}</p>
           </div>
 
           {submitted ? (
             <div className="form-success" role="status">
-              <strong>Thanks — we&apos;ll be in touch.</strong>
-              <div className="sub">A real human reads every message.</div>
+              <strong>{homeContent.contact.successTitle}</strong>
+              <div className="sub">{homeContent.contact.successSubtitle}</div>
             </div>
           ) : (
             <form
@@ -402,13 +327,13 @@ export default function Home() {
               <input type="hidden" name="form-name" value="contact" />
               <p hidden>
                 <label>
-                  Don&apos;t fill this out: <input name="bot-field" />
+                  {homeContent.contact.fields.honeypot} <input name="bot-field" />
                 </label>
               </p>
 
               <div className="form-content">
                 <div className="field">
-                  <label htmlFor="reason">Reason for contact</label>
+                  <label htmlFor="reason">{homeContent.contact.fields.reason}</label>
                   <select
                     id="reason"
                     name="reason"
@@ -416,15 +341,16 @@ export default function Home() {
                     onChange={(e) => setReason(e.target.value)}
                     required
                   >
-                    <option value="general">General</option>
-                    <option value="studio">Studio — submit a prototype</option>
-                    <option value="press">Press</option>
-                    <option value="careers">Careers</option>
+                    {homeContent.contact.reasons.map((reason) => (
+                      <option key={reason.value} value={reason.value}>
+                        {reason.label}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
                 <div className="field">
-                  <label htmlFor="name">Name</label>
+                  <label htmlFor="name">{homeContent.contact.fields.name}</label>
                   <input
                     id="name"
                     name="name"
@@ -435,7 +361,7 @@ export default function Home() {
                 </div>
 
                 <div className="field">
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="email">{homeContent.contact.fields.email}</label>
                   <input
                     id="email"
                     name="email"
@@ -447,13 +373,14 @@ export default function Home() {
 
                 <div className="field">
                   <label htmlFor="company">
-                    Studio / company <span className="optional">(optional)</span>
+                    {homeContent.contact.fields.company}{" "}
+                    <span className="optional">{homeContent.contact.fields.optional}</span>
                   </label>
                   <input id="company" name="company" type="text" />
                 </div>
 
                 <div className="field">
-                  <label htmlFor="message">Message</label>
+                  <label htmlFor="message">{homeContent.contact.fields.message}</label>
                   <textarea
                     id="message"
                     name="message"
@@ -464,7 +391,7 @@ export default function Home() {
                 </div>
 
                 <button type="submit" className="btn">
-                  Send message
+                  {homeContent.contact.submitLabel}
                 </button>
               </div>
             </form>
@@ -474,10 +401,10 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer className="site-footer">
-        <div>© Sorolla, 2026</div>
+        <div>© {siteContent.companyName}, {siteContent.copyrightYear}</div>
         <div className="footer-links">
-          <a href="mailto:contact@sorolla.io">contact@sorolla.io</a>
-          <a href="/privacy-policy">Privacy</a>
+          <a href={`mailto:${siteContent.contactEmail}`}>{siteContent.contactEmail}</a>
+          <Link href="/privacy-policy">{siteContent.footer.privacyLabel}</Link>
         </div>
       </footer>
     </div>
