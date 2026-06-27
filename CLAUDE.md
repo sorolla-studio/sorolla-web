@@ -62,3 +62,7 @@ Auto-deploys on push to main via `netlify.toml`. Uses `@netlify/plugin-nextjs`.
 Solo dev, simple site. Prioritize velocity:
 - Commit directly to main (skip PRs)
 - Keep it simple, no over-engineering
+
+## Content editing
+
+When making the site easier to edit, extract hardcoded copy into `src/content/*.ts` consumed by the existing layouts before proposing a CMS. Decap/Netlify CMS adds auth/config complexity; only add it if a non-technical editor actually needs it. When moving form labels or options into content files, preserve the Netlify form field names and the hidden detection form in `public/form.html`, or submissions break.
