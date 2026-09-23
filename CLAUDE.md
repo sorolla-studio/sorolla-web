@@ -15,7 +15,7 @@ Recreation of sorolla.io using Next.js + Tailwind + Netlify. Original site was o
 
 ## Stack
 
-- Next.js 15 (App Router)
+- Next.js 16 (App Router)
 - Tailwind CSS v4 (CSS-based config via `@theme inline` in `globals.css`)
 - Netlify (hosting + forms)
 - TypeScript
