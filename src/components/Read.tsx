@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { fill, NB } from "@/content/fill";
 import { homeContent } from "@/content/home";
 import { useSession } from "@/sea/session";
 import { beats, crowd } from "@/sea/crowd";
@@ -11,6 +12,7 @@ import { mulberry } from "@/sea/strokes";
 const t = homeContent.read;
 const FAR = 2400, BEND = 60; // metres at the right edge, and how soon the scale starts to squeeze
 const REVEAL = 900; // milliseconds
+const PULL = 22; // width of the visitor's bar, in pixels
 const at = (m: number) => Math.log1p(Math.min(m, FAR) / BEND) / Math.log1p(FAR / BEND);
 
 /** One coral pull of the wide brush, for the visitor's own throw. */
@@ -86,8 +88,8 @@ function Chart({ best }: { best: number }) {
       });
       el.parentElement!.style.setProperty("--you", `${Math.round(tall)}px`);
       if (best > 0) {
-        g.save(); g.translate(at(best) * w, h - 2); g.rotate(-Math.PI / 2);
-        g.drawImage(pull, 0, -11, tall * Math.min(1, k * 1.2), 22);
+        g.save(); g.translate(Math.max(PULL / 2, Math.min(w - PULL / 2, at(best) * w)), h - 2); g.rotate(-Math.PI / 2);
+        g.drawImage(pull, 0, -PULL / 2, tall * Math.min(1, k * 1.2), PULL);
         g.restore();
       }
     };
@@ -115,7 +117,12 @@ export default function Read() {
   const n = s.runs.length;
   const best = s.runs.reduce((m, r) => Math.max(m, r.metres), 0);
   const say = n === 0 ? t.before : n === 1 ? t.after.one : n < 4 ? t.after.few : t.after.many;
-  const seconds = (ms: number) => (ms < 60_000 ? `${Math.max(1, Math.round(ms / 1000))} s` : `${Math.floor(ms / 60_000)} min ${Math.round((ms % 60_000) / 1000)} s`);
+  const seconds = (ms: number) => (ms < 60_000 ? `${Math.max(1, Math.round(ms / 1000))}${NB}s` : `${Math.floor(ms / 60_000)}${NB}min ${Math.round((ms % 60_000) / 1000)}${NB}s`);
+  const share = beats(best);
+  const rank = share === 0 ? t.rank.none : share === 100 ? t.rank.all : t.rank.some;
+  const visit = fill(t.visit.replace("{rank}", rank), {
+    look: seconds(s.firstTapMs ?? 0), throws: fill(t.throws[Math.min(n, 3) - 1] ?? "", { n }), play: seconds(s.playedMs), best: `${best}${NB}m`, share,
+  });
   const toSea = () => { window.scrollTo({ top: 0, behavior: "smooth" }); document.querySelector<HTMLElement>(".sea-play")?.focus({ preventScroll: true }); };
 
   return (
@@ -124,7 +131,7 @@ export default function Read() {
         <h2>{say.title}</h2>
         {n > 0 && (
           <p className="lede">
-            You looked at the sea for <strong>{seconds(s.firstTapMs ?? 0)}</strong> before touching it, then threw <strong>{n === 1 ? "once" : n === 2 ? "twice" : `${n} times`}</strong> in <strong>{seconds(s.playedMs)}</strong> of play. Your best went <strong>{best} m</strong>, further than <strong>{beats(best)}</strong> of every 100 players in the chart.
+            {visit.split("*").map((part, i) => (i % 2 ? <strong key={i}>{part}</strong> : part))}
           </p>
         )}
         <p className="lede">{say.body}</p>
@@ -132,7 +139,7 @@ export default function Read() {
       </div>
       <div className="chart">
         <Chart best={best} />
-        {best > 0 && <p className="chart-you" style={{ left: `${at(best) * 100}%` }} data-side={at(best) > 0.8 ? "left" : "right"}>{t.you}, {best} m</p>}
+        {best > 0 && <p className="chart-you" style={{ left: `clamp(${PULL / 2}px, ${at(best) * 100}%, 100% - ${PULL / 2}px)` }} data-side={at(best) > 0.8 ? "left" : "right"}>{t.you}, {best} m</p>}
         <ul>
           {DAY.map((d) => <li key={d.name} style={{ left: `${at(d.at) * 100}%` }}><b>{d.name}</b>{d.at} m</li>)}
         </ul>

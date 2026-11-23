@@ -39,6 +39,8 @@ const GAP = 0.31;      // between letters
 const HALF = 0.182;    // half width of the brush
 const LINE = 1.86;     // line to line
 export const CAP = 1.43;
+/** How tall so many lines stand with the brush's own width, in units. */
+export const standing = (lines: number) => CAP + (lines - 1) * LINE + 2 * HALF;
 
 function spline(p: Pt[], per = 9): Pt[] {
   const out: Pt[] = [];

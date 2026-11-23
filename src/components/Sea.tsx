@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { fill } from "@/content/fill";
+import type { homeContent } from "@/content/home";
 import { World } from "@/sea/world";
 import { session } from "@/sea/session";
 
@@ -11,7 +13,7 @@ const MUTE_KEY = "sorolla-muted";
 /** Metres after which the sky is dark enough for light lettering. */
 const DARK_SKY = 520;
 
-type Words = { throw: string; time: string; again: string; read: string; sank: string };
+type Words = typeof homeContent.hero.sea;
 
 export default function Sea({ words, children }: { words: Words; children?: React.ReactNode }) {
   const sea = useRef<HTMLDivElement>(null);
@@ -103,7 +105,7 @@ export default function Sea({ words, children }: { words: Words; children?: Reac
       <button
         type="button"
         className="sea-play"
-        aria-label={phase === "run" ? "Tap when the stone meets the water" : "Skip a stone across the sea"}
+        aria-label={phase === "run" ? words.label.time : words.label.throw}
         onPointerMove={(e) => {
           const r = e.currentTarget.getBoundingClientRect();
           world.current?.point(((e.clientX - r.left) / r.width) * 2 - 1, 1 - ((e.clientY - r.top) / r.height) * 2);
@@ -128,14 +130,14 @@ export default function Sea({ words, children }: { words: Words; children?: Reac
             <p className="sea-total">{result.metres}<small>m</small></p>
             <p className="sea-how">
               {result.skips === 0 ? words.sank : (
-                <>{result.skips} {result.skips === 1 ? "skip" : "skips"}{result.light === "noon" ? ". Still noon." : `, noon to ${result.light}.`} {result.fresh ? "Your best." : `Your best is ${result.best} m.`}</>
+                <>{fill(words.skips[result.skips === 1 ? 0 : 1], { n: result.skips })}{result.light === "noon" ? words.noon : fill(words.later, { light: result.light })} {result.fresh ? words.fresh : fill(words.best, { m: result.best })}</>
               )}
             </p>
             <a className="textlink" href="#read">{words.read}</a>
           </div>
         )}
       </div>
-      <button type="button" className="sea-sound" onClick={toggle} aria-pressed={!muted} aria-label={muted ? "Turn sound on" : "Turn sound off"}>
+      <button type="button" className="sea-sound" onClick={toggle} aria-pressed={!muted} aria-label={muted ? words.label.soundOn : words.label.soundOff}>
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z" fill="currentColor" />
           {muted ? <path d="M16 9.5l5 5m0-5l-5 5" /> : <path d="M15.5 9a4.2 4.2 0 010 6M18.3 6.5a8 8 0 010 11" />}

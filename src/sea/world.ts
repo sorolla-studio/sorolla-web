@@ -1,7 +1,7 @@
 import { Painter, type Boat, type Frame, type Ripple } from "./painter";
 import { lightAt, lightName, type Light, type Rgb } from "./light";
 import { StrokeList, mix, paintBoat, paintEdge, paintSky } from "./strokes";
-import { CAP, lettering, measure } from "./lettering";
+import { CAP, lettering, measure, standing } from "./lettering";
 import { RULES, Run, type Hit } from "./rules";
 import { SeaAudio } from "./audio";
 import { FLAT } from "./brush";
@@ -20,7 +20,8 @@ const FEEL = {
   drawTitle: 1.5, titleBack: 0.55,
   lightSpeed: 1.6,                    // how fast the day answers to distance
   retryLock: 0.45, idleAfter: 5.5,
-  idleHop: 1.15, idleHeight: 0.09,
+  idleHop: 1.15, idleHeight: 0.09, idleTop: 0.24, // the last is how high the waiting stone reaches
+  headroom: 70,                       // pixels of sky the header needs above the horizon
   sway: 0.22,
   lookUp: 0.22, lookFrom: 40, lookTo: 320, // a longer throw is rewarded with more of the sky
   teach: 2, teachFrom: 0.2, teachHold: 4, // a visitor's first touches slow down and wait this long for the tap
@@ -136,13 +137,15 @@ export class World {
     const tall = this.tall = matchMedia(TALL).matches;
     this.baseFocal = tall ? 1.75 : 2;
     this.focal = this.baseFocal;
-    this.horizon = this.baseHorizon = this.opts.still?.horizon ?? (tall ? 0.74 : 0.72);
+    this.horizon = this.baseHorizon = this.opts.still?.horizon ?? Math.min(tall ? 0.74 : 0.72, 1 - (2 * FEEL.headroom) / h);
     // the waiting stone sits as near as it can with its whole ring above the label
     const { shut, idle, from, floor } = FEEL.ring;
     this.idleLead = (shut + idle * from) * OVAL + (this.baseFocal * FEEL.camHeight) / (this.horizon + 1 - (2 * floor) / h);
     const lines = tall ? ["Just", "Play"] : ["Just Play"];
-    const unit = Math.min((2 * this.aspect * 0.76) / Math.max(...lines.map(measure)), tall ? 0.245 : 0.66 / CAP);
-    const cy = tall ? 0.1 : -0.07;
+    // the title keeps between the boats and the top of the stone's hop
+    const low = this.horizon - (this.baseFocal * (FEEL.camHeight - FEEL.idleTop)) / this.idleLead + 0.045, high = this.horizon - 0.14;
+    const unit = Math.min((2 * this.aspect * 0.76) / Math.max(...lines.map(measure)), tall ? 0.245 : 0.66 / CAP, (high - low) / standing(lines.length));
+    const cy = Math.max(tall ? 0.1 : -0.07, low + (standing(lines.length) * unit) / 2);
     const t = lettering(lines, { unit, cx: 0, cy }, { focal: this.baseFocal, horizon: this.horizon, camH: FEEL.camHeight });
     this.painter.setLettering(t);
     this.titleBox = [0, cy, t.halfW, t.halfH];

@@ -12,5 +12,8 @@ export function crowd(): number[] {
   return cached;
 }
 
-/** How many of a hundred simulated players you beat. */
-export const beats = (metres: number) => Math.round((crowd().filter((m) => m < metres).length / N) * 100);
+/** How many of a hundred simulated players you beat: 0 only for none of them, 100 only for all. */
+export function beats(metres: number) {
+  const share = crowd().filter((m) => m < metres).length / N;
+  return share === 0 || share === 1 ? share * 100 : Math.min(99, Math.max(1, Math.round(share * 100)));
+}

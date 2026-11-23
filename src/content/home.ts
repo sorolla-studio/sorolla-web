@@ -3,7 +3,12 @@ export const homeContent = {
     title: "Just Play",
     line: "Sorolla publishes mobile games. Send us yours and we will tell you what players do with it.",
     button: "Send us your game",
-    sea: { throw: "Tap to throw", time: "Tap as the ring closes", again: "Tap to throw again", read: "See how that reads", sank: "It sank. Tap again each time the ring closes on it." },
+    sea: {
+      throw: "Tap to throw", time: "Tap as the ring closes", again: "Tap to throw again", read: "See how that reads",
+      sank: "It sank. Tap again each time the ring closes on it.",
+      skips: ["1 skip", "{n} skips"], noon: ". Still noon.", later: ", noon to {light}.", fresh: "Your best.", best: "Your best is {m} m.",
+      label: { throw: "Skip a stone across the sea", time: "Tap when the stone meets the water", soundOn: "Turn sound on", soundOff: "Turn sound off" },
+    },
   },
   read: {
     before: {
@@ -17,6 +22,10 @@ export const homeContent = {
       few: { title: "You threw again.", body: "Nobody asked you to. A second go is the first thing we look for in a prototype, before anyone talks about money." },
       many: { title: "You kept throwing.", body: "Nobody asked you to. Coming straight back is the best sign a prototype can give, and it shows in the first minute." },
     },
+    // the parts between stars are bold
+    visit: "You looked at the sea for *{look}* before touching it, then threw *{throws}* in *{play}* of play. Your best went *{best}*, {rank}.",
+    throws: ["once", "twice", "{n} times"],
+    rank: { none: "and all 500 players in the chart went further", some: "further than *{share}* of every 100 players in the chart", all: "further than all 500 players in the chart" },
     chart: "500 simulated players, each one a dab of paint, placed by how far their best throw went. Nothing about your visit leaves this page.",
     you: "You",
   },
