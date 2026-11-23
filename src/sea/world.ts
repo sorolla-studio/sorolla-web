@@ -22,6 +22,7 @@ const FEEL = {
   retryLock: 0.45, idleAfter: 5.5,
   idleHop: 1.15, idleHeight: 0.09, idleTop: 0.24, // the last is how high the waiting stone reaches
   headroom: 70,                       // pixels of sky the header needs above the horizon
+  boatClear: 0.05,                    // screen units between the near boat's water line and the title's top
   sway: 0.22,
   lookUp: 0.22, lookFrom: 40, lookTo: 320, // a longer throw is rewarded with more of the sky
   teach: 2, teachFrom: 0.2, teachHold: 4, // a visitor's first touches slow down and wait this long for the tap
@@ -164,10 +165,13 @@ export class World {
   }
 
   private placeBoats() {
-    const z = this.camZ;
-    this.boats = this.tall
-      ? [{ x: 2.3, z: z + 17, scale: 1.8, lean: -0.06 }, { x: -5.2, z: z + 34, scale: 1.9, lean: 0.05 }, { x: 3.4, z: z + 60, scale: 2.2, lean: -0.04 }]
-      : [{ x: 6.4, z: z + 13, scale: 1.75, lean: -0.06 }, { x: -13, z: z + 34, scale: 2.1, lean: 0.05 }, { x: 4, z: z + 58, scale: 2.3, lean: -0.04 }];
+    const [near, ...far] = this.tall
+      ? [{ x: 2.3, z: 17, scale: 1.8, lean: -0.06 }, { x: -5.2, z: 34, scale: 1.9, lean: 0.05 }, { x: -1.2, z: 60, scale: 2.2, lean: -0.04 }]
+      : [{ x: 6.4, z: 13, scale: 1.75, lean: -0.06 }, { x: -13, z: 34, scale: 2.1, lean: 0.05 }, { x: 4, z: 58, scale: 2.3, lean: -0.04 }];
+    // the near boat sails behind the title: where the letters reach up to it, it moves back along its line of sight
+    const top = this.titleBox[1] + this.titleBox[3] + FEEL.boatClear;
+    const back = Math.max(1, (this.baseFocal * FEEL.camHeight) / Math.max(0.02, this.baseHorizon - top) / near.z);
+    this.boats = [{ ...near, x: near.x * back, z: near.z * back }, ...far].map((b) => ({ ...b, z: this.camZ + b.z }));
   }
 
   /* ---------- input ---------- */
