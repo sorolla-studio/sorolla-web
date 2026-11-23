@@ -3,23 +3,19 @@ export const siteContent = {
   tagline: "Just Play",
   contactEmail: "contact@sorolla.io",
   copyrightYear: "2026",
-  logo: {
-    src: "/images/logo.png",
-    alt: "Sorolla",
-  },
+  url: "https://sorolla.io",
   metadata: {
-    title: {
-      default: "Sorolla | Discover Artistic Inspiration Today",
-      template: "%s — Sorolla",
-    },
+    title: { default: "Sorolla | Just Play", template: "%s | Sorolla" },
     description:
-      "Explore Sorolla | Just Play for engaging arts content, vibrant visuals, and creative ideas to inspire your next artistic project or visit.",
+      "Sorolla publishes mobile games. Send us yours: we test it with real players, share the numbers as they come in, and scale the ones that work.",
   },
   nav: [
-    { label: "About us", href: "/about" },
-    { label: "Sorolla Privacy Policy", href: "/privacy-policy" },
+    { label: "Games", href: "/#games" },
+    { label: "How we work", href: "/#work" },
+    { label: "About", href: "/about" },
   ],
-  footer: {
-    privacyLabel: "Privacy",
-  },
+  footer: [
+    { label: "About", href: "/about" },
+    { label: "Privacy policy", href: "/privacy-policy" },
+  ],
 } as const;

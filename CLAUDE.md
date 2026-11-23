@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Recreation of sorolla.io using Next.js + Tailwind + Netlify. Original site was on Squarespace.
+sorolla.io on Next.js + Netlify. The first screen is a painted sea and a one-tap stone-skipping game; everything below it is painted in the same brush.
 
 **Business:** Mobile game publishing company specializing in hybrid casual titles.
 **Tagline:** "Just Play"
@@ -16,7 +16,8 @@ Recreation of sorolla.io using Next.js + Tailwind + Netlify. Original site was o
 ## Stack
 
 - Next.js 16 (App Router)
-- Tailwind CSS v4 (CSS-based config via `@theme inline` in `globals.css`)
+- Plain CSS in `globals.css` (Tailwind v4 is loaded for its reset and `sr-only` only)
+- Raw WebGL2 for the sea (`src/sea/`), no 3D library
 - Netlify (hosting + forms)
 - TypeScript
 - React 19
@@ -33,21 +34,22 @@ npm run lint     # ESLint
 ## Architecture
 
 **Pages (App Router):**
-- `/` - Full-screen hero with "Sorolla | Just Play"
-- `/about` - Company info + contact form
-- `/privacy-policy` - Mobile game privacy policy
+- `/` - the sea and its game, the reading of your throw, games, how we work, contact
+- `/about` - who we are + contact form
+- `/privacy-policy` - mobile game privacy policy (also at `/sorolla-privacy-policy`, which live games link to)
+- `/paint` - dev only: what `scripts/paint.mjs` photographs
 
-**Custom Colors** (defined in `src/app/globals.css`):
-- `--coral: #e86a4a` - Contact section background
-- `--brand: #00b4d8` - Logo cyan, links
+**The sea (`src/sea/`):** `rules.ts` is the game with no drawing, so the visitor and the 500 simulated players in `crowd.ts` play the same one. `world.ts` runs it (`FEEL` holds every feel value); `painter.ts` and `shaders.ts` draw brush strokes; `light.ts` is the day from noon to night.
 
-Use as Tailwind classes: `bg-coral`, `text-brand`, etc.
+**Painted pictures (`public/paint/`)** come from the live sea. After changing how it looks, with the dev server on 4961: `CHROME=<headless chrome> node scripts/paint.mjs`.
+
+**Copy** lives in `src/content/`, never in components. Nothing about a visit is sent anywhere, and the page says so: keep it true.
 
 ## Netlify Forms
 
 Contact form uses Netlify Forms with:
 - Form name: `contact`
-- Fields: email, message
+- Fields: reason, name, email, company, message
 - Honeypot spam protection (`bot-field`)
 - Static form in `public/form.html` for Netlify build detection
 

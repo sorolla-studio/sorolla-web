@@ -1,139 +1,52 @@
 export const homeContent = {
-  sections: [
-    { id: "hero", label: "Index", theme: "dark" },
-    { id: "mission", label: "Mission", theme: "light" },
-    { id: "process", label: "Process", theme: "dark" },
-    { id: "team", label: "Team", theme: "light" },
-    { id: "contact", label: "Contact", theme: "light" },
-  ],
   hero: {
-    eyebrow: "Hybrid casual · est. 2024",
-    title: {
-      before: "Sorolla ",
-      emphasized: "|",
-      after: " Just Play",
-    },
-    image: {
-      src: "/images/hero-image.png",
-      alt: "A group of happy teenagers and young adults in a gaming arcade, playing games on their smartphones, smiling, laughing, and enjoying their time together.",
-    },
-    scrollCue: "Scroll",
+    title: "Just Play",
+    line: "Sorolla publishes mobile games. Send us yours and we will tell you what players do with it.",
+    button: "Send us your game",
+    sea: { throw: "Tap to throw", time: "Tap as the ring closes", again: "Tap to throw again", read: "See how that reads", sank: "It sank. Tap again each time the ring closes on it." },
   },
-  mission: {
-    eyebrow: "Mission",
-    title: {
-      before: "We make hybrid casual games",
-      emphasized: "worth playing",
-      after: ".",
+  read: {
+    before: {
+      title: "Throw one. We will read it.",
+      body: "This is what we do with a prototype: watch the first minute of play and set it next to everyone else’s. Play the sea and the chart fills in with yours.",
+      button: "Go and throw one",
     },
-    body: "Sorolla is a small team turning promising prototypes into globally published mobile games. We work behind the scenes — quietly, deliberately, and with a healthy distrust of our own taste.",
-    visualLabel: "[ studio photograph ]",
+    after: {
+      button: "Throw again",
+      one: { title: "One throw, then you scrolled.", body: "That is where every test starts. The first throw has to earn the second, and that is the number we would work on with you." },
+      few: { title: "You threw again.", body: "Nobody asked you to. A second go is the first thing we look for in a prototype, before anyone talks about money." },
+      many: { title: "You kept throwing.", body: "Nobody asked you to. Coming straight back is the best sign a prototype can give, and it shows in the first minute." },
+    },
+    chart: "500 simulated players, each one a dab of paint, placed by how far their best throw went. Nothing about your visit leaves this page.",
+    you: "You",
   },
-  process: {
-    eyebrow: "How we work",
-    title: {
-      before: "A quiet, ",
-      emphasized: "data-driven",
-      after: " loop.",
-    },
+  games: { title: "Out now", play: "Play it here", close: "Close the game" },
+  work: {
+    title: "What happens after you send it",
     steps: [
-      {
-        number: "01",
-        label: "Read",
-        title: { before: "Read the ", emphasized: "market", after: ", not the room." },
-        body: "Hybrid casual rewards instincts most people don't have. We start from market behavior — rankings, retention curves, creative signals — not from what feels good in a meeting.",
-      },
-      {
-        number: "02",
-        label: "Test",
-        title: { before: "Real spend, ", emphasized: "real users", after: "." },
-        body: "Prototypes go through structured UA tests with measurable budgets. CPI, D1, D7, session length, early monetization — the same numbers everyone uses, reported transparently to the studios we work with.",
-      },
-      {
-        number: "03",
-        label: "Decide",
-        title: { before: "Honest ", emphasized: "thresholds", after: "." },
-        body: "We share the numbers as they come in. If a prototype clears, we scale together. If not, we say so quickly and move on. No opaque feedback, no slow no's.",
-      },
-      {
-        number: "04",
-        label: "Scale",
-        title: { before: "Through to ", emphasized: "live ops", after: "." },
-        body: "For winners: SDK integration, creative production, paid UA, monetization tuning, live ops. We treat scaling as part of the product, not an afterthought.",
-      },
-    ],
-  },
-  team: {
-    eyebrow: "Team",
-    title: {
-      before: "A few people, working ",
-      emphasized: "closely",
-      after: ".",
-    },
-    body: "Sorolla is intentionally small. Decision-makers are reachable; feedback is direct. We treat the studios we work with the way we'd want to be treated as developers.",
-    members: [
-      {
-        name: "Founder",
-        role: "CEO",
-        initials: "A",
-        parallax: "0.15",
-        portraitLabel: "[ portrait ]",
-        bio: "Background in mobile publishing and product. Leads partnerships, fundraising, and the overall direction of the studio.",
-      },
-      {
-        name: "Co-founder",
-        role: "Product & Tech",
-        initials: "B",
-        parallax: "0.2",
-        portraitLabel: "[ portrait ]",
-        bio: "Shapes the publishing platform and the SDK. Lives between the analytics pipeline and the studios shipping into it.",
-      },
-      {
-        name: "Co-founder",
-        role: "UA & Creative",
-        initials: "C",
-        parallax: "0.1",
-        portraitLabel: "[ portrait ]",
-        bio: "Runs the testing loop end-to-end: media buying, creative production, and the read on whether a prototype can scale.",
-      },
+      { name: "Read", body: "We start from how the market behaves: rankings, retention curves, what creatives are doing. Not from what feels good in a meeting." },
+      { name: "Test", body: "Your prototype goes to real players with a real budget. CPI, D1, D7, session length: you see the same numbers we see." },
+      { name: "Decide", body: "We share results as they come in. If the game clears, we scale it together. If it does not, we say so quickly." },
+      { name: "Scale", body: "SDK, creatives, user acquisition, monetization, live ops. We treat growth as part of the product." },
     ],
   },
   contact: {
-    eyebrow: "Contact",
-    title: {
-      before: "Tell us what you're ",
-      emphasized: "working on",
-      after: ".",
-    },
+    title: "Send us your game",
     body: "A real human reads every message. We try to reply within a week, even if the answer is no.",
-    successTitle: "Thanks — we'll be in touch.",
-    successSubtitle: "A real human reads every message.",
-    submitLabel: "Send message",
-    requiredFields: ["name", "email", "message"],
+    orMail: "Or write to",
+    submit: "Send",
+    sending: "Sending",
+    sent: { title: "It is with us.", body: "We try to reply within a week, even if the answer is no." },
+    failed: "That did not go through. Please write to us by email instead:",
+    missing: "Fill this in so we can answer you.",
+    badEmail: "That email looks incomplete, check it once more.",
+    reasonLabel: "What is it about?",
     reasons: [
-      { value: "general", label: "General", placeholder: "Tell us what you have in mind." },
-      {
-        value: "studio",
-        label: "Studio — submit a prototype",
-        placeholder: "Tell us about your prototype: genre, build status, anything you've tested so far.",
-      },
+      { value: "studio", label: "A game to publish", placeholder: "What is it, how far along is it, and where can we play it? A store or TestFlight link is perfect." },
       { value: "press", label: "Press", placeholder: "What are you working on, and what do you need from us?" },
-      { value: "careers", label: "Careers", placeholder: "A short intro plus links to work you're proud of." },
+      { value: "careers", label: "A job", placeholder: "A short intro, plus links to work you are proud of." },
+      { value: "general", label: "Something else", placeholder: "Tell us what you have in mind." },
     ],
-    fields: {
-      reason: "Reason for contact",
-      name: "Name",
-      email: "Email",
-      company: "Studio / company",
-      optional: "(optional)",
-      message: "Message",
-      honeypot: "Don't fill this out:",
-    },
+    fields: { name: "Your name", email: "Email", company: "Studio", optional: "optional", message: "Message", honeypot: "Leave this empty" },
   },
 } as const;
-
-export type EmphasizedText = {
-  before: string;
-  emphasized: string;
-  after: string;
-};
