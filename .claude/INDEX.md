@@ -13,7 +13,9 @@ keywords: [Next.js, React, TypeScript, Tailwind, website, corporate, mobile game
 - `src/components/Read.tsx` - Reading of the visitor's throw + chart [chart, crowd]
 - `src/components/Games.tsx`, `Playable.tsx` - Games wall and the embedded playable [games, playable]
 - `src/content/` - All copy [copy, text, games, home, about, privacy]
+- `scripts/look.mjs` - Plays the site at phone and desktop size, saves what a visitor sees in `shots/` [screenshots, review, verify]
 - `scripts/paint.mjs` - Repaints `public/paint/` and the link preview [poster, masks, og image]
+- `scripts/chrome.mjs` - Headless Chrome or Edge for both scripts [browser, DevTools]
 - `src/app/about/page.tsx` - Company info + contact form [about, contact, form]
 - `src/app/privacy-policy/page.tsx` - Mobile game privacy policy [privacy, policy, legal]
 - `src/app/globals.css` - All styles [styles, colors, type]
@@ -21,7 +23,7 @@ keywords: [Next.js, React, TypeScript, Tailwind, website, corporate, mobile game
 - `src/components/ContactForm.tsx` - Netlify form component [form, contact, Netlify]
 - `public/form.html` - Static form for Netlify detection [form, Netlify]
 - `netlify.toml` - Netlify deployment config [deploy, Netlify, config]
-- `CLAUDE.md` - Project context [conventions]
+- `AGENTS.md` - How to iterate, what the site keeps (`CLAUDE.md` imports it) [conventions, workflow, Windows]
 
 ## Tech Stack
 
