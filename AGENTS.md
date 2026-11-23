@@ -11,7 +11,7 @@ Sorolla publishes mobile games; this repo is its site (Next.js 16 on Netlify, pu
 
 The judge is a visitor: someone who runs a game studio opens sorolla.io on a phone. A change is done when the site plays and looks better than before, next to the sites that visitor also opens (homagames.com, supercell.com, voodoo.io). Code that compiles proves nothing here; pictures do.
 
-1. Once: `npm install` (Node 22 or newer). Keep `npm run dev` running (http://localhost:3000).
+1. Once: `npm install` (Node 22 or newer). Keep `npm run dev` running (http://localhost:3000), and run `npm run look` once so the first change has a `before`.
 2. Make one change.
 3. In a second terminal: `npm run look`. It plays the sea in a headless browser at phone and desktop size, saves what a visitor sees in `shots/now/` (the previous run moves to `shots/before/`), and prints the console's errors.
 4. Open every picture the change touches at full size, beside its `before` twin. The step is done when nothing overlaps or is cut off at any size, the console is clean, and the change is clearly better than `before`; otherwise fix it or revert it.
