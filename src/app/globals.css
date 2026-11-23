@@ -1,12 +1,11 @@
-@import "tailwindcss";
-
-@theme inline {
-  --font-sans: var(--font-gabarito), system-ui, sans-serif;
-  --color-ground: #f1eef6;
-  --color-ink: #12304f;
-  --color-soft: #47607a;
-  --color-coral: #e86a4a;
-  --color-brand: #00b4d8;
+/* the resets this page relies on, in a layer so every rule below wins over them */
+@layer base {
+  *, ::before, ::after { box-sizing: border-box; margin: 0; padding: 0; border: 0 solid; }
+  a { color: inherit; text-decoration: inherit; }
+  ol, ul { list-style: none; }
+  img, svg, canvas, iframe { display: block; vertical-align: middle; }
+  img { max-width: 100%; height: auto; }
+  button, input, select, textarea { font: inherit; letter-spacing: inherit; color: inherit; background-color: transparent; border-radius: 0; }
 }
 
 :root {
@@ -21,13 +20,14 @@
   --out: cubic-bezier(.2, .8, .2, 1);
 }
 
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-body { background: var(--ground); color: var(--ink); font-family: var(--font-sans); font-size: 18px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+body { background: var(--ground); color: var(--ink); font-family: var(--font-gabarito), system-ui, sans-serif; font-size: 18px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
 ::selection { background: var(--press); color: #fff; }
 :focus-visible { outline: 3px solid var(--press); outline-offset: 4px; border-radius: 3px; }
 h1, h2 { font-size: clamp(44px, 6.4vw, 96px); font-weight: 800; line-height: .96; letter-spacing: -.028em; text-wrap: balance; }
 h3 { font-size: clamp(24px, 2vw, 30px); font-weight: 700; line-height: 1.1; letter-spacing: -.012em; }
 p { text-wrap: pretty; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 section[id] { scroll-margin-top: 48px; }
 .band { max-width: 1600px; margin-inline: auto; padding-inline: var(--edge); }
 main > * + * { margin-top: var(--gap); }

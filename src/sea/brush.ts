@@ -1,19 +1,17 @@
 // Eight bristle stamps drawn once into one atlas: grey is how thick the paint lies, alpha is
 // where it lies. Deterministic, so every visitor gets the same brush.
-export const STAMPS = 8;
+const STAMPS = 8;
 /** stamps from here on are a loaded flat brush: square ends, no dry tail */
 export const FLAT = 6;
 const CELL_W = 256, CELL_H = 96, COLS = 2, ROWS = STAMPS / COLS;
 
-function rng(seed: number) {
-  let s = seed >>> 0;
-  return () => {
-    s = (s + 0x6d2b79f5) >>> 0;
-    let t = Math.imul(s ^ (s >>> 15), 1 | s);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
+/** Seeded random numbers (mulberry32): the same seed paints the same strokes for every visitor. */
+export const mulberry = (seed: number) => () => {
+  seed = (seed + 0x6d2b79f5) | 0;
+  let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+};
 
 /** Four long pulls of a wide brush. Red is thickness, green says which bristles carry another colour. */
 export function longBrush(): HTMLCanvasElement {
@@ -23,7 +21,7 @@ export function longBrush(): HTMLCanvasElement {
   const g = c.getContext("2d")!;
   g.lineCap = "round";
   for (let n = 0; n < 4; n++) {
-    const r = rng(401 + n * 77), oy = n * h;
+    const r = mulberry(401 + n * 77), oy = n * h;
     g.save();
     g.beginPath(); g.rect(0, oy, w, h); g.clip();
     const bristles = 120;
@@ -58,7 +56,7 @@ export function brushAtlas(): HTMLCanvasElement {
   const g = c.getContext("2d")!;
   g.lineCap = "round";
   for (let n = 0; n < STAMPS; n++) {
-    const r = rng(7 + n * 131);
+    const r = mulberry(7 + n * 131);
     const ox = (n % COLS) * CELL_W, oy = Math.floor(n / COLS) * CELL_H;
     g.save();
     g.beginPath();

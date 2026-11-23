@@ -1,8 +1,8 @@
 import { siteContent } from "./site";
 
 export type Inline = string | { text: string; href: string };
-export type TextBlock = { type: "paragraph"; content: Inline[] };
-export type ListBlock = { type: "list"; items: Inline[][] };
+type TextBlock = { type: "paragraph"; content: Inline[] };
+type ListBlock = { type: "list"; items: Inline[][] };
 export type PolicyBlock = TextBlock | ListBlock;
 
 const emailLink = { text: siteContent.contactEmail, href: `mailto:${siteContent.contactEmail}` };

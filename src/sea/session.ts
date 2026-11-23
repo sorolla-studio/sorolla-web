@@ -3,7 +3,7 @@
 import { useSyncExternalStore } from "react";
 
 /** What one visit to the sea looked like. Lives in memory only; nothing is sent. */
-export type Session = {
+type Session = {
   openedAt: number;
   firstTapMs: number | null;
   playedMs: number;

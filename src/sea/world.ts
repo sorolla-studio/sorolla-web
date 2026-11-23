@@ -1,6 +1,6 @@
 import { Painter, type Boat, type Frame, type Ripple } from "./painter";
-import { lightAt, lightName, type Light, type Rgb } from "./light";
-import { StrokeList, mix, paintBoat, paintEdge, paintSky } from "./strokes";
+import { lightAt, lightName, mix, type Light, type Rgb } from "./light";
+import { StrokeList, paintBoat, paintEdge, paintSky } from "./strokes";
 import { CAP, lettering, measure, standing } from "./lettering";
 import { RULES, Run, type Hit } from "./rules";
 import { SeaAudio } from "./audio";
@@ -33,13 +33,13 @@ const OVAL = 1.15;
 /** Screens that get the two-line title; globals.css swaps its still pictures at the same shape. */
 const TALL = "(max-aspect-ratio: 4/5)";
 
-export type WorldOptions = {
+type WorldOptions = {
   reduced: boolean;
   /** one fixed frame, for the poster and the pictures further down the page */
   still?: { at: number; title?: boolean; edge?: boolean; horizon?: number };
 };
 
-export type Hud = {
+type Hud = {
   metres: (m: number) => void;
   say: (word: string, tone: "perfect" | "good" | "poor") => void;
   state: (s: "idle" | "run" | "over", result?: { metres: number; skips: number; best: number; light: string; fresh: boolean }) => void;
@@ -93,7 +93,6 @@ export class World {
   private raf = 0;
   private last = 0;
   private slow = { n: 0, sum: 0, scale: 1 };
-  private seen = true;
 
   constructor(private host: HTMLElement, private hud: Hud, private opts: WorldOptions) {
     this.canvas = document.createElement("canvas");
@@ -123,7 +122,6 @@ export class World {
   stop() { cancelAnimationFrame(this.raf); this.raf = 0; }
 
   setSeen(seen: boolean) {
-    this.seen = seen;
     if (seen && !document.hidden) { this.start(); this.audio.resume(); } else { this.stop(); this.audio.suspend(); }
   }
 

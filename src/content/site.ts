@@ -1,6 +1,5 @@
 export const siteContent = {
   companyName: "Sorolla",
-  tagline: "Just Play",
   contactEmail: "contact@sorolla.io",
   copyrightYear: "2026",
   url: "https://sorolla.io",

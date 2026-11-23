@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import { SiteFooter, SiteHeader } from "@/components/Site";
 import {
   privacyPolicyContent,
   type Inline,
@@ -55,7 +54,7 @@ function PolicyBlockView({ block }: { block: PolicyBlock }) {
 export default function PrivacyPolicyPage() {
   return (
     <>
-      <Header />
+      <SiteHeader />
       <main>
         <article className="band legal">
           <h1>{privacyPolicyContent.title}</h1>
@@ -71,7 +70,7 @@ export default function PrivacyPolicyPage() {
           ))}
         </article>
       </main>
-      <Footer />
+      <SiteFooter />
     </>
   );
 }

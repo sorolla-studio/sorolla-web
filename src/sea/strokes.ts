@@ -1,6 +1,6 @@
 import { STROKE, type Boat } from "./painter";
-import { FLAT } from "./brush";
-import type { Light, Rgb } from "./light";
+import { FLAT, mulberry } from "./brush";
+import { mix, type Light, type Rgb } from "./light";
 
 /** Growable list of free strokes, reused every frame. */
 export class StrokeList {
@@ -14,13 +14,6 @@ export class StrokeList {
   }
 }
 
-export const mulberry = (seed: number) => () => {
-  seed = (seed + 0x6d2b79f5) | 0;
-  let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-};
-export const mix = (a: Rgb, b: Rgb, t: number): Rgb => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
 const scale = (a: Rgb, k: number): Rgb => [a[0] * k, a[1] * k, a[2] * k];
 const smooth = (a: number, b: number, x: number) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
 

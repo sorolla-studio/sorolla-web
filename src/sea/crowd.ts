@@ -1,5 +1,5 @@
 import { simulate } from "./rules";
-import { mulberry } from "./strokes";
+import { mulberry } from "./brush";
 
 const N = 500, THROWS = 3;
 

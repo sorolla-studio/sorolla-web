@@ -33,7 +33,7 @@ export const DAY: { at: number; name: string; light: Light }[] = [
   { at: 860, name: "night", light: key("081230", "13305c", "285d8c", "8fb8dc", "3b3f86", "3f6a86", "e8825f", "0c1a40", "27477a", "f2f0d8", "dfeaf2", 0.5, 0.7) },
 ];
 
-const mix = (a: Rgb, b: Rgb, t: number): Rgb => [
+export const mix = (a: Rgb, b: Rgb, t: number): Rgb => [
   a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t,
 ];
 

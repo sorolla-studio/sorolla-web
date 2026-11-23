@@ -1,11 +1,10 @@
 import Link from "next/link";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import { SiteFooter, SiteHeader } from "@/components/Site";
 
 export default function NotFound() {
   return (
     <>
-      <Header />
+      <SiteHeader />
       <main>
         <section className="band about">
           <h1>Nothing here but water</h1>
@@ -15,7 +14,7 @@ export default function NotFound() {
           </div>
         </section>
       </main>
-      <Footer />
+      <SiteFooter />
     </>
   );
 }

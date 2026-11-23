@@ -1,7 +1,6 @@
 # sorolla.io
 
-Sorolla publishes mobile games; this repo is its site (Next.js 16 on Netlify, public on GitHub). The first screen is a painted sea with a one-tap stone-skipping game; everything below it is painted with the same brush. File map: `.claude/INDEX.md`.
-
+Sorolla publishes mobile games; this repo is its site (Next.js 16 on Netlify, public on GitHub). The first screen is a painted sea with a one-tap stone-skipping game; everything below it is painted with the same brush.
 ## Branches
 
 - `dev` is where work happens: commit and push it freely. Netlify builds each push as a branch preview, hidden from search engines (`src/app/layout.tsx` reads Netlify's `CONTEXT`).
@@ -22,7 +21,7 @@ The judge is a visitor: someone who runs a game studio opens sorolla.io on a pho
 
 - `src/sea/`: `rules.ts` is the game with no drawing; the 500 simulated players in `crowd.ts` play the same rules, so a rules change also moves the chart. `world.ts` runs it, and its `FEEL` object holds every feel value (timings, camera, the ring, the title's room). `painter.ts` and `shaders.ts` draw brush strokes, `light.ts` turns metres into the time of day, `lettering.ts` holds the brush skeletons of "Just Play". Raw WebGL2, no 3D library.
 - `src/content/`: every word on the site, the game's labels included. Components only lay words out.
-- `src/app/globals.css`: all styles, plain CSS; colours and type are the variables at the top. Tailwind v4 is loaded only for its reset and `sr-only`.
+- `src/app/globals.css`: all styles, plain CSS; colours and type are the variables at the top.
 - Games: `src/content/games.ts`, art in `public/games/<slug>.webp`, the playable ad in `public/play/`.
 - `/privacy-policy` is also served at `/sorolla-privacy-policy`, and ad networks read `public/app-ads.txt`: live games link to these paths, so they stay.
 - `/paint` (dev only) is the page `npm run paint` photographs.
@@ -37,7 +36,7 @@ The judge is a visitor: someone who runs a game studio opens sorolla.io on a pho
 
 ## Contact form
 
-Netlify Forms, form name `contact`, fields reason, name, email, company, message, honeypot `bot-field`. Netlify finds the form through the static copy in `public/form.html`, so a field added to `src/components/ContactForm.tsx` is added there too. A local server answers the form's POST with 405; only a Netlify deploy accepts it.
+Netlify Forms finds the form through its static copy in `public/form.html`, so a field added to `src/components/Contact.tsx` is added there too. A local server answers the form's POST with 405; only a Netlify deploy accepts it.
 
 ## On Windows
 

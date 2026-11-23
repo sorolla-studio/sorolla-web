@@ -5,9 +5,8 @@ import { fill, NB } from "@/content/fill";
 import { homeContent } from "@/content/home";
 import { useSession } from "@/sea/session";
 import { beats, crowd } from "@/sea/crowd";
-import { brushAtlas, FLAT, longBrush } from "@/sea/brush";
+import { brushAtlas, FLAT, longBrush, mulberry } from "@/sea/brush";
 import { DAY, lightAt, type Rgb } from "@/sea/light";
-import { mulberry } from "@/sea/strokes";
 
 const t = homeContent.read;
 const FAR = 2400, BEND = 60; // metres at the right edge, and how soon the scale starts to squeeze

@@ -2,22 +2,19 @@
 
 import { useEffect, useRef } from "react";
 import { World } from "@/sea/world";
-import { brushAtlas, longBrush } from "@/sea/brush";
-import { mulberry } from "@/sea/strokes";
+import { brushAtlas, longBrush, mulberry } from "@/sea/brush";
 
 const quiet = { metres() {}, say() {}, state() {}, firstTap() {}, ran() {} };
 
 /** One pull of the wide brush. */
 function swipe(g: CanvasRenderingContext2D, w: number, h: number, row: number) {
   g.drawImage(longBrush(), 0, row * 128, 1024, 128, 0, 0, w, h);
-  g.globalCompositeOperation = "source-in"; g.fillStyle = "#000"; g.fillRect(0, 0, w, h);
 }
 
 /** Three short pulls side by side. */
 function dab(g: CanvasRenderingContext2D, w: number, h: number) {
   const r = mulberry(21);
   for (let i = 0; i < 3; i++) g.drawImage(longBrush(), 0, ((i + 1) * 128) % 512, 1024, 128, w * r() * 0.1, h * (0.02 + i * 0.29), w * (0.86 + r() * 0.05), h * 0.4);
-  g.globalCompositeOperation = "source-in"; g.fillStyle = "#000"; g.fillRect(0, 0, w, h);
 }
 
 /** A picture's edge: rows of strokes that cover the middle and end unevenly. */
@@ -36,7 +33,6 @@ function frame(g: CanvasRenderingContext2D, w: number, h: number) {
     g.restore();
   }
   for (let i = 0; i < 16; i++) g.drawImage(dab, 0, Math.floor(r() * 3) * 96, 256, 96, r() * w * 0.8, r() < 0.5 ? m * 0.3 : h - m * 0.6 - th * 0.4, w * 0.22, th * 0.4);
-  g.globalCompositeOperation = "source-in"; g.fillStyle = "#000"; g.fillRect(0, 0, w, h);
 }
 
 export default function PaintTable() {
@@ -53,6 +49,7 @@ export default function PaintTable() {
     const g = c.getContext("2d")!;
     g.scale(devicePixelRatio, devicePixelRatio);
     if (what === "swipe") swipe(g, w, h, Number(q.get("row") ?? 0)); else if (what === "dab") dab(g, w, h); else frame(g, w, h);
+    g.globalCompositeOperation = "source-in"; g.fillStyle = "#000"; g.fillRect(0, 0, w, h); // a mask: the brush marks, in black
     el.appendChild(c);
     return () => c.remove();
   }, []);
