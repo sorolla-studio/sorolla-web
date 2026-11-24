@@ -15,7 +15,7 @@ The judge is a visitor: someone who runs a game studio opens sorolla.io on a pho
 3. In a second terminal: `npm run look`. It plays the sea in a headless browser at phone and desktop size, saves what a visitor sees in `shots/now/` (the previous run moves to `shots/before/`), and prints the console's errors.
 4. Open every picture the change touches at full size, beside its `before` twin. The step is done when nothing overlaps or is cut off at any size, the console is clean, and the change is clearly better than `before`; otherwise fix it or revert it.
 5. Changed how the sea looks? `npm run paint` repaints the still pictures (`public/paint/`, the link preview) from the live painter; commit them with the change.
-6. `npm run lint` and `npm run build` pass. Commit on `dev` with a message that says what changed and why, then `git push origin dev`.
+6. `npm run build` passes (it type-checks). Commit on `dev` with a message that says what changed and why, then `git push origin dev`.
 
 ## Where things live
 
@@ -42,3 +42,13 @@ Netlify Forms finds the form through its static copy in `public/form.html`, so a
 
 - `npm run look` and `npm run paint` find Chrome or Edge in their usual install folders. Anywhere else, point `CHROME` at the executable (PowerShell: `$env:CHROME = "C:\path\to\chrome.exe"`). `BASE` points them at an address other than http://localhost:3000.
 - Text files check out with LF line endings (`.gitattributes`).
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
