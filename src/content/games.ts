@@ -3,7 +3,7 @@ export type Game = {
   slug: string; name: string; line: string;
   /** pixels of public/games/<slug>.webp, cut from the game's own App Store pictures */
   size: [number, number];
-  appStore: string; googlePlay?: string; playable?: string;
+  appStore: string; googlePlay?: string;
 };
 
 export const games: Game[] = [
@@ -14,7 +14,6 @@ export const games: Game[] = [
     size: [1000, 1493],
     appStore: "https://apps.apple.com/us/app/sweep-collector/id6757695295",
     googlePlay: "https://play.google.com/store/apps/details?id=com.COGInteractive.SweepCollector",
-    playable: "/play/sweep-collector.html",
   },
   {
     slug: "happy-snake-3d",

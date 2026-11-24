@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Playable from "./Playable";
 import { games, type Game } from "@/content/games";
 import { homeContent } from "@/content/home";
 
@@ -17,19 +16,14 @@ function Label({ game }: { game: Game }) {
 }
 
 export default function Games() {
-  const [lead, ...rest] = games;
   return (
     <section id="games" className="band">
       <h2>{homeContent.games.title}</h2>
       <div className="wall">
-        <figure className="hang is-lead">
-          <Playable game={lead} />
-          <Label game={lead} />
-        </figure>
-        {rest.map((g) => (
-          <figure key={g.slug} className={`hang is-${g.slug}`}>
+        {games.map((g, i) => (
+          <figure key={g.slug} className={`hang is-${i ? g.slug : "lead"}`}>
             <a href={g.appStore} target="_blank" rel="noopener noreferrer" className="canvas" tabIndex={-1} aria-hidden="true">
-              <Image src={`/games/${g.slug}.webp`} alt="" width={g.size[0]} height={g.size[1]} sizes="(max-width: 760px) 60vw, 34vw" />
+              <Image src={`/games/${g.slug}.webp`} alt="" width={g.size[0]} height={g.size[1]} sizes={i ? "(max-width: 760px) 60vw, 34vw" : "(max-width: 760px) 92vw, 42vw"} />
             </a>
             <Label game={g} />
           </figure>

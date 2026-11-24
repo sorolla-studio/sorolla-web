@@ -29,7 +29,7 @@ export const homeContent = {
     chart: "500 simulated players, each one a dab of paint, placed by how far their best throw went. Nothing about your visit leaves this page.",
     you: "You",
   },
-  games: { title: "Out now", play: "Play it here", close: "Close the game" },
+  games: { title: "Out now" },
   work: {
     title: "What happens after you send it",
     steps: [
